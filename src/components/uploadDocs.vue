@@ -60,10 +60,7 @@ export default {
         reader.onload = () => {
           const base64String = reader.result;
           const base64ImageWithoutPrefix = base64String.split(",")[1];
-          this.base64Image = `${file.type}~${base64ImageWithoutPrefix}`;
-
-          console.log(this.base64Image)
-
+          this.base64Image = `${fileInput.name}~${base64ImageWithoutPrefix}`;
 
           let requestBody = {
             username: "myName",
@@ -78,7 +75,7 @@ export default {
                 this.alertCustom("Successfull", "Successfull Uploading Your Document!", "OK")
                 console.log("Data added successfully.");
               }
-              this.$router.push("/");
+              // this.$router.push("/docs");
             })
             .catch((error) => {
               this.alertCustom("Successfull", error , "OK")
