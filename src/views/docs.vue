@@ -2,7 +2,7 @@
   <div class="content">
     <div class="form">
       <div>
-        <uploadDocs/>
+        <uploadDocs />
       </div>
     </div>
   </div>
@@ -10,11 +10,24 @@
 
 <script>
 import uploadDocs from '@/components/uploadDocs.vue';
+import { useStore } from "../../store/store";
+// import router from '@/views/Account.vue';
 
 export default {
-    components:{
-        uploadDocs
+  components: {
+    uploadDocs
+  },
+  mounted(){
+    if(this.store.role !== "user"){
+      this.$router.replace('/user')
     }
+  },
+  setup() {
+    const store = useStore();
+    return {
+      store,
+    };
+  },
 }
 </script>
 
@@ -26,6 +39,7 @@ export default {
   align-items: center;
   justify-content: center;
 }
+
 .form {
   border: 1px solid black;
   border-radius: 20px;
@@ -35,12 +49,13 @@ export default {
   display: flex;
   justify-content: center;
 }
+
 .form p {
   text-align: center;
   transition: ease 0.05s;
 }
+
 .form p:hover {
   text-align: center;
   color: blue;
-}
-</style>
+}</style>

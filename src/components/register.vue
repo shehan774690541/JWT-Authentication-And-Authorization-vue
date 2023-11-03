@@ -4,20 +4,33 @@
     <b-field label="User Name">
       <b-input v-model="userName"></b-input>
     </b-field>
+
     <b-field label="Password">
-      <b-input v-model="password"></b-input>
+      <b-input v-model="password" type="password"></b-input>
     </b-field>
+
     <b-field label="Email Address">
       <b-input v-model="email"></b-input>
     </b-field>
+
+    <div class="block">
+      <b-radio v-model="role" name="name" native-value="user">
+        User
+      </b-radio>
+      <b-radio v-model="role" name="name" native-value="student">
+        Student
+      </b-radio>
+    </div>
+
     <center>
       <b-button @click="UserRegister">Register</b-button>
     </center>
   </div>
 </template>
   
-  <script>
+<script>
 import axios from "axios";
+import router from "@/router";
 
 export default {
   data() {
@@ -25,6 +38,7 @@ export default {
       email: "",
       password: "",
       userName: "",
+      role: "user"
     };
   },
   methods: {
@@ -34,6 +48,7 @@ export default {
           userName: this.userName,
           password: this.password,
           email: this.email,
+          userRole: this.role,
         };
         console.log(requestBody);
         axios
@@ -44,7 +59,9 @@ export default {
               console.log("Data added successfully.");
               this.alertCustom("Successfull !", "New Account Create Successfull", "OK");
             }
-            // this.$router.push("/gi");
+            if (this.$route.fullPath !== '/user') {
+              router.push('/user');
+            }
           })
           .catch((error) => {
             this.alertCustom("An error occurred !", error, "OK");
@@ -64,5 +81,4 @@ export default {
 };
 </script>
   
-  <style>
-</style>
+<style></style>

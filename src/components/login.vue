@@ -6,7 +6,7 @@
       <b-input v-model="email"></b-input>
     </b-field>
     <b-field label="Password">
-      <b-input v-model="password"></b-input>
+      <b-input v-model="password" type="password"></b-input>
     </b-field>
     <center>
       <b-button @click="UserLogin">Login Here</b-button>
@@ -17,13 +17,14 @@
 <script>
 import axios from "axios";
 import { useStore } from "../../store/store";
+import router from "@/router";
 
 export default {
   data() {
     return {
       email: "",
       password: "",
-      userName: "",
+      userName: "", 
     };
   },
   methods: {
@@ -41,7 +42,8 @@ export default {
               console.log(response.data.data.token);
               this.store.token = response.data.data.token;
               // this.alertCustom("Successfull !", "New Account Create Successfull", "OK");
-              this.$router.push("/docs");
+              // this.$router.push("/docs");
+              router.push('/docs')
             }
           })
           .catch((error) => {

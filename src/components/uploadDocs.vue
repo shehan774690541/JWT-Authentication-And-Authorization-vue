@@ -63,22 +63,22 @@ export default {
           this.base64Image = `${fileInput.name}~${base64ImageWithoutPrefix}`;
 
           let requestBody = {
-            username: "myName",
+            email: "string",
             document: this.base64Image,
           };
 
-          console.log(requestBody);
+          // console.log(requestBody);
           axios
             .post("http://localhost:5169/api/UserDocs/uploadDocs", requestBody)
             .then((response) => {
               if (response.status === 200) {
-                this.alertCustom("Successfull", "Successfull Uploading Your Document!", "OK")
-                console.log("Data added successfully.");
+                this.alertCustom("SUccessfull", response.message , "OK")
+                console.log(response.message);
               }
               // this.$router.push("/docs");
             })
             .catch((error) => {
-              this.alertCustom("Successfull", error , "OK")
+              this.alertCustom("Problem", error , "OK")
             });
         };
 

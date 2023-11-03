@@ -4,9 +4,9 @@
       <login v-if="loginForm" />
       <register v-if="registerForm" />
       <br />
-      <p @click="changeForms">
+      <div @click="changeForms" style="width: 100%;text-align: center;" >
         <u>{{ form_changer }}</u>
-      </p>
+      </div>
     </div>
   </div>
 </template>
@@ -15,6 +15,7 @@
 import login from "@/components/login.vue";
 import register from "@/components/register.vue";
 import { useStore } from "../../store/store";
+import router from "@/router";
 
 export default {
   components: {
@@ -30,12 +31,24 @@ export default {
   },
   mounted() {
     this.changeForms();
+    if(this.$route.query.pg == "register"){
+      this.loginForm = false
+      this.registerForm = true
+    }
+    else{
+      this.loginForm = true
+      this.registerForm = false
+    }
+
+    if(this.$route.query.pg == "login"){
+      this.loginForm = true
+      this.registerForm = false
+    }
   },
   methods: {
     changeForms() {
-      (this.loginForm = !this.loginForm),
-        (this.registerForm = !this.registerForm),
-        (this.form_changer = "clicked!");
+      (this.loginForm = !this.loginForm),(this.registerForm = !this.registerForm),(this.form_changer = "clicked!");
+
       if (this.loginForm == true && this.registerForm == false) {
         this.form_changer = "Already have account? Sign in";
       } else {
