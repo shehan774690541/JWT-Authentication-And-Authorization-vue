@@ -41,6 +41,7 @@ export default {
             if (response.status === 200) {
               console.log(response.data.data.token);
               this.store.token = response.data.data.token;
+              this.store.user = this.email;
               // this.alertCustom("Successfull !", "New Account Create Successfull", "OK");
               // this.$router.push("/docs");
               router.push('/docs')

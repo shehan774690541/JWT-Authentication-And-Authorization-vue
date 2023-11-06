@@ -38,6 +38,7 @@
 
 <script>
 import axios from "axios";
+import { useStore } from "../../store/store";
 
 export default {
   data() {
@@ -63,15 +64,17 @@ export default {
           this.base64Image = `${fileInput.name}~${base64ImageWithoutPrefix}`;
 
           let requestBody = {
-            email: "string",
+            email: this.store.user,
             document: this.base64Image,
           };
+          console.log(requestBody)
 
           // console.log(requestBody);
           axios
             .post("http://localhost:5169/api/UserDocs/uploadDocs", requestBody)
             .then((response) => {
               if (response.status === 200) {
+                
                 this.alertCustom("SUccessfull", response.message , "OK")
                 console.log(response.message);
               }
@@ -115,6 +118,12 @@ export default {
         confirmText: _confirmText,
       });
     },
+  },
+  setup() {
+    const store = useStore();
+    return {
+      store,
+    };
   },
 };
 </script>
