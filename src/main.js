@@ -19,6 +19,7 @@ new Vue({
 }).$mount('#app')
 
 
+
 pinia.use((context)=>{
   console.log(context)
   const useStoreId = context.store.$id

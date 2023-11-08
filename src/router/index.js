@@ -27,4 +27,9 @@ const router = new VueRouter({
   routes
 })
 
+// router.beforeEach(async(to, from)=>{
+//   const canAccess = await canUserAccess(to)
+//   if (!canAccess) return '/docs'
+// })
+
 export default router
