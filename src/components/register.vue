@@ -31,6 +31,7 @@
 <script>
 import axios from "axios";
 import router from "@/router";
+import networkManager from "@/network";
 
 export default {
   data() {
@@ -50,22 +51,13 @@ export default {
           email: this.email,
           userRole: this.role,
         };
-        console.log(requestBody);
-        axios
-          .post("http://localhost:5169/api/User/register?", requestBody)
-          .then((response) => {
-            if (response.status === 200) {
-              // this.alertCustom("added", "Successfull Add New Data!", "is-success", "check")
-              console.log("Data added successfully.");
-              this.alertCustom("Successfull !", "New Account Create Successfull", "OK");
-            }
-            if (this.$route.fullPath !== '/user') {
-              router.push('/user');
-            }
-          })
-          .catch((error) => {
-            this.alertCustom("An error occurred !", error, "OK");
-          });
+        networkManager.apiRequest('api/User/register', requestBody, (e) => {
+          if (e.status === 200) {
+            console.log("Data added successfully.", e);
+            this.alertCustom("Successfull !", "New Account Create Successfull", "OK");
+            router.push('');
+          }
+        }, false);
       } catch (error) {
         this.alertCustom("An error occurred !", error, "OK");
       }

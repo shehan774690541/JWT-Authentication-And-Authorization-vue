@@ -7,4 +7,4 @@ export const useStore = defineStore({
         role: "",
         user: ""
     }),
-});
+}); 

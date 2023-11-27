@@ -1,13 +1,14 @@
 <template>
   <div class="content">
+    <!-- <b-button v-on:click="TestingConsolePrograms()">check</b-button> -->
     <div class="form">
       <login v-if="loginForm" />
       <register v-if="registerForm" />
       <br />
-      <div @click="changeForms" style="width: 100%;text-align: center;" >
+      <div @click="changeForms" style="width: 100%;text-align: center;">
         <u>{{ form_changer }}</u>
       </div>
-
+{{ store.token }}
     </div>
   </div>
 </template>
@@ -15,7 +16,7 @@
 <script>
 import login from "@/components/login.vue";
 import register from "@/components/register.vue";
-import { useStore } from "../../store/store";
+import { useStore } from "@/store/store";
 import router from "@/router";
 
 export default {
@@ -32,32 +33,32 @@ export default {
   },
   mounted() {
     this.changeForms();
-    if(this.$route.query.pg == "register"){
+    if (this.$route.query.pg == "register") {
       this.loginForm = false
       this.registerForm = true
     }
-    else{
+    else {
       this.loginForm = true
       this.registerForm = false
     }
 
-    if(this.$route.query.pg == "login"){
+    if (this.$route.query.pg == "login") {
       this.loginForm = true
       this.registerForm = false
     }
   },
   methods: {
     changeForms() {
-      (this.loginForm = !this.loginForm),(this.registerForm = !this.registerForm),(this.form_changer = "clicked!");
+      (this.loginForm = !this.loginForm), (this.registerForm = !this.registerForm), (this.form_changer = "clicked!");
 
       if (this.loginForm == true && this.registerForm == false) {
-        this.form_changer = "Already have account? Sign in";
+        this.form_changer = "Don't have account yet?";
       } else {
-        this.form_changer = "Don't have account yet? Sign up";
+        this.form_changer = "Sign up Already have account? Sign in";
       }
     },
-    cl() {
-      console.log(this.store);
+    TestingConsolePrograms() {
+      console.log(this.store)
     },
   },
   setup() {
@@ -77,6 +78,7 @@ export default {
   align-items: center;
   justify-content: center;
 }
+
 .form {
   border: 1px solid black;
   border-radius: 20px;
@@ -84,12 +86,13 @@ export default {
   width: 500px;
   height: auto;
 }
+
 .form p {
   text-align: center;
   transition: ease 0.05s;
 }
+
 .form p:hover {
   text-align: center;
   color: blue;
-}
-</style>
+}</style>../store/store

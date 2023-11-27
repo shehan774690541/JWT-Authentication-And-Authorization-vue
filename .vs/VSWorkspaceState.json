@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\components",
+    "\\src\\helpers",
+    "\\src\\network",
+    "\\src\\router",
+    "\\src\\views",
+    "\\store"
+  ],
+  "SelectedNode": "\\src\\components\\uploadDocs.vue",
+  "PreviewInSolutionExplorer": false
+}

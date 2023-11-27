@@ -1,35 +1,32 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import  store from '@/store/store'
+import Pipeline from '@/helpers/middlewarePipeline' 
+import routes from '@/router/routes'
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: () => import('../views/Account.vue')
-  },
-  {
-    path: '/docs',
-    name: 'docs',
-    component: () => import('../views/docs.vue')
-  },
-  {
-    path: '/user',
-    name: 'user',
-    component: () => import('../views/Account.vue')
-  },
-]
-
 const router = new VueRouter({
   mode: 'history',
-  base: process.env.BASE_URL,
   routes
 })
+//  base: process.env.BASE_URL,
 
-// router.beforeEach(async(to, from)=>{
-//   const canAccess = await canUserAccess(to)
-//   if (!canAccess) return '/docs'
-// })
+router.beforeEach((to, from, next) => {
+  const middleware = to.meta.middleware
+  const context = { to, from, next, router, store }
+
+  if (!middleware) {
+    console.log("router - index");
+    return next()
+  }
+
+  middleware[0]({
+    ...context,
+    next: Pipeline(context, middleware, 1),
+  });
+  
+
+});
 
 export default router

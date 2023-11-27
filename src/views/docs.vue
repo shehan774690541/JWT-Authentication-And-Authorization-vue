@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <div class="form"  v-if="this.viewDocs">
+    <div class="form"  v-if="this.uploadDocs">
       <div>
         <uploadDocs/>
       </div>
@@ -16,13 +16,13 @@
         <div class="p-1">
           <b-menu>
             <b-menu-list label="Menu">
-              <b-menu-item  label="All Data" @click="uploadDocumentMethod()"></b-menu-item>
+              <b-menu-item  label="Upload Document" @click="uploadDocumentMethod()"></b-menu-item>
             </b-menu-list>
             <b-menu-list>
-              <b-menu-item label="Upload Document"  @click="viewAddDataMethod()"></b-menu-item>
+              <b-menu-item label="All Data"  @click="viewAddDataMethod()"></b-menu-item>
             </b-menu-list>
             <b-menu-list label="Actions">
-              <b-menu-item label="Logout"></b-menu-item>
+              <b-menu-item label="Logout" v-on:click="logOutUser(true)"></b-menu-item>
             </b-menu-list>
           </b-menu>
         </div>
@@ -54,9 +54,11 @@
 <script>
 import uploadDocs from '@/components/uploadDocs.vue';
 import allDocs from '@/components/allDocs.vue';
-import { useStore } from "../../store/store";
+import { useStore } from "@/store/store";
 import AllDocs from '@/components/allDocs.vue';
 // import router from '@/views/Account.vue';
+import jwtUtils from '@/helpers/jwtUtils';
+
 
 export default {
   components: {
@@ -67,14 +69,8 @@ export default {
   data() {
     return {
       open: false,
-      uploadDocument: true,
-      viewAllData: true,
-      viewDocs:false
-    }
-  },
-  mounted() {
-    if (this.store.role !== "user") {
-      this.$router.replace('/user')
+      viewAllData: false,
+      uploadDocs:true,
     }
   },
   setup() {
@@ -85,12 +81,16 @@ export default {
   },
   methods:{
     uploadDocumentMethod(){
-      this.viewDocs = true;
+      this.uploadDocs = true;
       this.viewAllData = false;
     },
     viewAddDataMethod(){
-      this.viewDocs = false;
+      this.uploadDocs = false;
       this.viewAllData = true;
+    },
+    logOutUser(){
+      console.log("userLog out");
+      jwtUtils.logoutTheUser();
     }
   }
 }
@@ -144,4 +144,4 @@ export default {
   width: 100%;
   height: 100%;
 }
-</style>
+</style>../store/store

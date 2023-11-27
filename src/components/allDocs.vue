@@ -1,13 +1,40 @@
 <template>
-    <b-table :data="data" :columns="columns"></b-table>
+    <div class="allData">
+        <section>
+            <b-collapse class="card" animation="slide" v-for="(collapse, index) of tableData" :key="index"
+                :open="isOpen == index" @open="isOpen = index" :aria-id="'contentIdForA11y5-' + index">
+                <template #trigger="props">
+                    <div class="card-header" role="button" :aria-controls="'contentIdForA11y5-' + index"
+                        :aria-expanded="props.open" >
+                        <p class="card-header-title">
+                            {{ collapse.userName }}
+                        </p>
+                        <a class="card-header-icon">
+                            <b-icon :icon="props.open ? 'menu-down' : 'menu-up'">
+                            </b-icon>
+                        </a>
+                    </div>
+                </template>  
+                <div class="card-content" >
+                    <div class="content" style="height: 50px; ">
+                        {{ collapse.document }}
+                    </div>
+                </div>
+            </b-collapse>
+        </section>
+    </div>
 </template>
 
 <script>
 import axios from "axios";
+import { useStore } from "@/store/store";
+import networkManager from '@/network';
+
 export default {
     data() {
         return {
-            data: [],
+            isOpen: 0,
+            tableData: [],
             columns: [
                 { field: 'id', label: 'ID', numeric: true },
                 { field: 'userName', label: 'User Name', },
@@ -20,23 +47,27 @@ export default {
     },
     methods: {
         async allDocuments() {
-            try {
-                const response = await axios.get("http://localhost:5169/api/UserDocs/AllData");
-
-                if (response.data.status_code === 200) {
-                    console.log(response.data.status_code)
-                this.data = response.data.data.documents
-                } else {
-                    console.log("Failed to fetch Document data");
-                }
-            } catch (error) {
-                console.log("An error occurred:", error);
-            }
+            const data = null;
+            networkManager.apiRequest('api/UserDocs/Alldata', data, (e) => {
+                this.storeData(e.data.data.documents);
+            });
         },
+        storeData(datas) {
+            console.log(datas); this.tableData = datas;
+        }
+    }
+    ,
+    setup() {
+        const store = useStore();                                
+        return {
+            store,
+        };
     },
-
-
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.allData {
+    padding: 30px;
+}
+</style>../store/store

@@ -16,15 +16,17 @@
 
 <script>
 import axios from "axios";
-import { useStore } from "../../store/store";
+import { useStore } from "@/store/store";
 import router from "@/router";
+import networkManager from "@/network";
+
 
 export default {
   data() {
     return {
       email: "",
       password: "",
-      userName: "", 
+      userName: "",
     };
   },
   methods: {
@@ -34,23 +36,17 @@ export default {
           password: this.password,
           email: this.email,
         };
-        console.log(requestBody);
-        axios
-          .post("http://localhost:5169/api/User/login", requestBody)
-          .then((response) => {
-            if (response.status === 200) {
-              console.log(response.data.data.token);
-              this.store.token = response.data.data.token;
-              this.store.user = this.email;
-              // this.alertCustom("Successfull !", "New Account Create Successfull", "OK");
-              // this.$router.push("/docs");
-              router.push('/docs')
-            }
-          })
-          .catch((error) => {
-            this.alertCustom("An error occurred !", error, "OK");
-          });
+        
+        networkManager.apiRequest('api/User/login', requestBody, (e) => {
+          if (e.data.status_code == 200) {
+            this.store.token = e.data.data.token;
+            this.store.user = this.email;
+            this.$router.push('docs');
+          }
+        }, false);
+        
       } catch (error) {
+        console.log("User Login : ", error)
         this.alertCustom("An error occurred !", error, "OK");
       }
     },
@@ -71,5 +67,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>../store/store

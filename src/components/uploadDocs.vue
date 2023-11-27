@@ -1,6 +1,7 @@
 <template>
   <div id="app" class="container">
     <h2 style="text-align: center">Upload Document</h2>
+    <!-- txt : {{ this.txt }} -->
     <div>
       <section>
         <b-field>
@@ -35,7 +36,9 @@
 
 <script>
 import axios from "axios";
-import { useStore } from "../../store/store";
+import { useStore } from "@/store/store";
+import networkManager from "@/network";
+
 
 export default {
   data() {
@@ -43,6 +46,7 @@ export default {
       dropFiles: null,
       uploafVisible: true,
       base64Image: null,
+      txt: ""
     };
   },
   methods: {
@@ -50,7 +54,7 @@ export default {
       this.dropFiles.splice(index, 1);
       this.dropFiles = null;
     },
-    async uploadForDb(file) {
+    uploadForDb: function (file) {
       try {
         const fileInput = file;
         const reader = new FileReader();
@@ -60,33 +64,25 @@ export default {
           const base64ImageWithoutPrefix = base64String.split(",")[1];
           this.base64Image = `${fileInput.name}~${base64ImageWithoutPrefix}`;
 
-          let requestBody = {
+          const requestBody = {
             email: this.store.user,
             document: this.base64Image,
           };
-          console.log(requestBody)
+          console.log(requestBody);
 
-          // console.log(requestBody);
-          axios
-            .post("http://localhost:5169/api/UserDocs/uploadDocs", requestBody)
-            .then((response) => {
-              if (response.status === 200) {
-
-                this.alertCustom("SUccessfull", response.message, "OK")
-                console.log(response.message);
-              }
-              // this.$router.push("/docs");
-            })
-            .catch((error) => {
-              this.alertCustom("Problem", error, "OK")
-            });
+          networkManager.apiRequest('api/UserDocs/uploadDocs', requestBody, (e) => {
+            this.alertCustom("Successfull", e.data.data.documents, "OK");
+          });
         };
 
         reader.readAsDataURL(fileInput);
+        console.log("Upload process Finished!");
       } catch (error) {
-        console.error("An error occurred:", error);
+        console.log("Upload Error : ", error);
       }
     },
+
+
     formatFileSize(size) {
       if (size < 1024) {
         return size + " B";
@@ -124,6 +120,5 @@ export default {
   },
 };
 </script>
-<style scoped>
-
-</style>
+<style scoped></style>
+../store/store

@@ -6,12 +6,18 @@ import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 
 import {createPinia,PiniaVuePlugin} from "pinia"
+
+import testMiddleware from "@/middlewares/permission"
+
+
 Vue.use(PiniaVuePlugin)
 const pinia = createPinia()
 
 Vue.use(Buefy)
 
 Vue.config.productionTip = false
+
+// router.beforeEach(testMiddleware);
 
 new Vue({
   router,
@@ -21,9 +27,9 @@ new Vue({
 
 
 pinia.use((context)=>{
-  console.log(context)
+  // console.log(context)
   const useStoreId = context.store.$id
-  console.log(useStoreId)
+  // console.log(useStoreId)
 
   // sync data from store ---------------
   const fromLocalStorageProducts = JSON.parse(localStorage.getItem(useStoreId))
