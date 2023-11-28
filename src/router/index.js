@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import  store from '@/store/store'
+import store from '@/store/store'
 import Pipeline from '@/helpers/middlewarePipeline' 
 import routes from '@/router/routes'
 
@@ -8,7 +8,7 @@ Vue.use(VueRouter)
 
 const router = new VueRouter({
   mode: 'history',
-  routes
+  routes,
 })
 //  base: process.env.BASE_URL,
 

@@ -8,7 +8,6 @@
       <div @click="changeForms" style="width: 100%;text-align: center;">
         <u>{{ form_changer }}</u>
       </div>
-{{ store.token }}
     </div>
   </div>
 </template>

@@ -14,10 +14,9 @@ const routes = [
       name: 'user',
       component: () => import('../views/Account.vue'),
       meta: {
-        type: "menu-item",
         title: "Applications for Approval",
         isActive: true,
-        middleware: [Permission],
+        middleware: [Auth],
         permissions: ["docs-download"],
       },
     },
@@ -26,13 +25,13 @@ const routes = [
       name: 'docs',
       component: () => import('../views/docs.vue'),
       meta: {
-        type: "menu-item",
         title: "Applications for Approval",
-        isActive: false,
+        isActive: true,
         middleware: [Permission],
         permissions: ["docs-download"],
       },
     },
+    
   ]
 
 export default routes

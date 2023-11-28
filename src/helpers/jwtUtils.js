@@ -80,8 +80,6 @@ const jwtUtils = {
         }
         catch (e) {
             console.error(e.message)
-            // this.logoutTheUser()
-
             return false
         }
     },
@@ -138,7 +136,7 @@ const jwtUtils = {
                 }
                 Toast.open(params)
                 setTimeout(() => {
-                    router.replace({ path: 'user' }).then(() => { router.go() })
+                    router.replace({ path: '/' }).then(() => { router.go() })
                 }, 100)
                 // router.push('/home');
             }

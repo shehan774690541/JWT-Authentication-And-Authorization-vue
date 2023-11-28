@@ -27,6 +27,7 @@ export default {
       email: "",
       password: "",
       userName: "",
+      request_status: 0,
     };
   },
   methods: {
@@ -36,15 +37,19 @@ export default {
           password: this.password,
           email: this.email,
         };
-        
         networkManager.apiRequest('api/User/login', requestBody, (e) => {
           if (e.data.status_code == 200) {
             this.store.token = e.data.data.token;
             this.store.user = this.email;
-            this.$router.push('docs');
           }
-        }, false);
-        
+          this.request_status = e.data.status_code;
+
+        }, false)
+        if (this.request_status == 200) {
+          this.$router.push('docs');
+        }
+
+
       } catch (error) {
         console.log("User Login : ", error)
         this.alertCustom("An error occurred !", error, "OK");

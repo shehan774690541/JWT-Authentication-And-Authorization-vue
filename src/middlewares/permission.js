@@ -1,32 +1,33 @@
-import jwtUtils from "@/helpers/jwtUtils";
+import jwtUtils from "@/helpers/jwtUtils"
 
-export default function exampleMiddleware(to, from, next, router) {
-    try {
-
-        if(!hasPermissionsNeeded(to)) {
-            console.log("====>")
-            next()
-        }
-        
-    } catch (error) {
-        console.log(error)
+export default function auth({to, from ,next, router }) {
+    console.log("permission middleware")
+    
+    if(!hasPermissionsNeeded(to)){
+        next('/user')
+    }
+    else{
+        return next()
     }
 
-    function hasPermissionsNeeded(to) {
-        console.log("middleware permission")
-        // var permissions = to.meta.permissons;
-        var hasPermission = true
+    function hasPermissionsNeeded(to){
+        var hasPermission = false
+        var userPermissions = []
+        console.log(to)
 
-        // if(jwtUtils.loadToken() !== null){
-        //     hasPermission = true
-        // }
+        try {
+            userPermissions = jwtUtils.parseJwt
+            console.log("user permissions",userPermissions(JSON.parse(localStorage.store).token))
+            hasPermission = true
+        } catch (error) {
+            console.log(error)
+        }
 
-        // if(to.name == "home" || to.name == "user"){
-        //     hasPermission = true;
-        // }
+        
 
         return hasPermission
     }
+
 
     return next()
 }

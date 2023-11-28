@@ -59,8 +59,10 @@ const networkManager = {
                 }
 
                 callBack(resp)
+            })
+            .finally(function () {
+                console.log("apiRequest Finished!")
             });
-        console.log("apiRequest Finished!")
     }
 }
 
