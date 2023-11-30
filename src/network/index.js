@@ -22,7 +22,6 @@ const networkManager = {
         };
 
         if (withToken) {
-
             let authHeader = `Bearer ${JSON.parse(localStorage.getItem('store')).token}`
 
             config.headers = {
@@ -35,30 +34,34 @@ const networkManager = {
         if (contentType === "multipart/form-data") {
             config.headers["onUploadProgress"] = progrsEvent => console.log(ProgressEvent.loaded)
         }
+
         axios
             .post(URL, data, config)
-            .then(function (e) {
-                callBack(e);
+            .then(function (response) {
+                const responseData = {
+                    statusCode: response.status,
+                    data: response.data.data
+                };
+                callBack(responseData);
             })
-            .catch(function (e) {
+            .catch(function (error) {
                 let resp = new NetworkResponse();
 
-                if (e.response) {
-                    resp.statusCode = e.response.status
+                if (error.response) {
+                    resp.statusCode = error.response.status;
 
-                    if (e.response.data) {
-                        resp = e.response.data;
+                    if (error.response.data) {
+                        resp = error.response.data;
                     }
 
-                    if (resp.statusCode = 401) {
+                    if (resp.statusCode === 401) {
                         console.log("log out the user!")
                     }
-                }
-                else {
-                    resp.statusCode = 502
+                } else {
+                    resp.statusCode = 502;
                 }
 
-                callBack(resp)
+                callBack(resp);
             })
             .finally(function () {
                 console.log("apiRequest Finished!")
@@ -67,8 +70,3 @@ const networkManager = {
 }
 
 export default networkManager;
-
-
-// const lStorage = localStorage.getItem('store');
-//     const lJsonStorage = JSON.parse(lStorage)
-//     const tkn = lJsonStorage.token.split(":")[0]

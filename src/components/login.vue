@@ -24,35 +24,37 @@ import networkManager from "@/network";
 export default {
   data() {
     return {
-      email: "",
-      password: "",
+      email: "shehan774690541@gmail.com",
+      password: "shehanApp",
       userName: "",
       request_status: 0,
     };
   },
   methods: {
     UserLogin() {
+      const comp = this
+      console.log("login vue")
       try {
         let requestBody = {
-          password: this.password,
-          email: this.email,
+          password: comp.password,
+          email: comp.email,
         };
         networkManager.apiRequest('api/User/login', requestBody, (e) => {
-          if (e.data.status_code == 200) {
-            this.store.token = e.data.data.token;
-            this.store.user = this.email;
+          console.log("Login responce", e)
+          if (e.statusCode == 200) {
+            comp.store.token = e.data.token;
+            comp.store.user = comp.email;
+            console.log("get docs")
+            this.$router.push("docs");
           }
-          this.request_status = e.data.status_code;
+          else {
+            comp.alertCustom("An error occurred !", "Invalid password or user name", " - OK - ");
+          }
 
         }, false)
-        if (this.request_status == 200) {
-          this.$router.push('docs');
-        }
-
-
       } catch (error) {
         console.log("User Login : ", error)
-        this.alertCustom("An error occurred !", error, "OK");
+        comp.alertCustom("An error occurred !", error, "OK");
       }
     },
     alertCustom(_title, _message, _confirmText) {

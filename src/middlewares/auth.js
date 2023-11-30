@@ -1,4 +1,7 @@
+import jwtUtils from "@/helpers/jwtUtils"
+
+
 export default function auth({ next, router }) {
-    console.log("permission auth")
+    jwtUtils.loadToken();
     return next()
 }

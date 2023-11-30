@@ -4,7 +4,7 @@ export default function auth({to, from ,next, router }) {
     console.log("permission middleware")
     
     if(!hasPermissionsNeeded(to)){
-        next('/user')
+        next('/')
     }
     else{
         return next()
@@ -13,7 +13,7 @@ export default function auth({to, from ,next, router }) {
     function hasPermissionsNeeded(to){
         var hasPermission = false
         var userPermissions = []
-        console.log(to)
+        console.log("permission 'to'", to)
 
         try {
             userPermissions = jwtUtils.parseJwt
