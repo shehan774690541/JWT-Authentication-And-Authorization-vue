@@ -45,7 +45,7 @@ export default {
             comp.store.token = e.data.token;
             comp.store.user = comp.email;
             console.log("get docs")
-            this.$router.push("docs");
+            comp.$router.push("/docs");
           }
           else {
             comp.alertCustom("An error occurred !", "Invalid password or user name", " - OK - ");

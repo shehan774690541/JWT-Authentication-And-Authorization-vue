@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import store from '@/store/store'
+import { useStore } from '@/store/store'
 import Pipeline from '@/helpers/middlewarePipeline' 
 import routes from '@/router/routes'
 
@@ -14,7 +14,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const middleware = to.meta.middleware
-  const context = { to, from, next, router, store }
+  const context = { to, from, next, router, useStore }
 
   if (!middleware) {
     console.log("router - index");
